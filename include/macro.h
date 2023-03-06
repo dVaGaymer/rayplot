@@ -1,0 +1,4 @@
+# define SPACING 2
+# define ANTI_CLOCK_WISE -90
+# define MAX_NUMBER_OF_PLOTS 16
+# define MAX_TEXT_SIZE 64
