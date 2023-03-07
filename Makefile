@@ -3,10 +3,8 @@ NAME		=	rayplot
 #----- HEADER -----
 H_DIR	=	include
 H		=	$(H_DIR)/main.h \
-			$(H_DIR)/axis.h \
-			$(H_DIR)/types.h \
 			$(H_DIR)/macro.h \
-			$(H_DIR)/plot.h
+			$(H_DIR)/rayplot.h
 
 #----- SRC ----
 SRC_DIR		=	src

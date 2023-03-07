@@ -32,6 +32,8 @@ typedef struct	s_axis2D
 	int		title_text_size;
 	Color	title_text_color; Font	title_text_font;
 
+	bool	frame;
+
 	char	*x_label;
 	int		x_label_text_size;
 	Color	x_label_text_color; Font	x_label_text_font;
@@ -57,12 +59,27 @@ typedef struct	s_axis2D
 	//Choose whether the grid is labeled with its num. values
 	bool	grid_num;
 	Color	grid_num_color;
+	int		grid_num_text_size;
 
 	//whether the axis include a legend of its plots
 	bool	legend;
 
+	int		padding;
+
 	t_plot		plots[MAX_NUMBER_OF_PLOTS];
 /*------------------------------------------------------------------------------------*/
 }				t_axis2D;
+
+//------- PLOT -------
+void	plot_lines_D(t_axis2D ax, Vector2 *data, int size, Color col);
+void	plot_scatter_D(t_axis2D ax, Vector2 *data, int size, Color col);
+//TODO version with static vars to make plots faster?
+void	plot_lines_F(t_axis2D ax, double (*f)(double), Vector3 range, Color col);
+void	plot_scatter_F(t_axis2D ax, float (*f)(float), Vector2 range);
+
+//------ AXIS ------
+Vector2	axis_map_to_screen(t_axis2D ax, Vector2 p);
+void	axis_create(t_axis2D *ax, Rectangle bounds);
+void	axis_show(t_axis2D ax);
 
 #endif
