@@ -1,9 +1,12 @@
 #include "main.h"
+#include <stdio.h>
 
-# define WIDTH 1000.0f
-# define HEIGHT 1000.0f
+# define WIDTH 1200.0f
+# define HEIGHT 800.0f
 
 double test(double x) { return (sin(x) * cos(2 * x * x) * cos(2 * x)); }
+
+double wave_test(double x) { return(sin (x - GetTime())); }
 
 int	main(void)
 {
@@ -11,25 +14,25 @@ int	main(void)
 	SetTargetFPS(60);
 
 	t_axis2D	ax;
-	axis_create(&ax, (Rectangle){WIDTH/2, HEIGHT/2, 900, 300});
-	ax.x_range = (Vector2){-5, 5 * PI};
-	ax.y_range = (Vector2){-1.5, 1.5};
+	axis_create(&ax, (Rectangle){WIDTH/2, HEIGHT/2, WIDTH * 0.9, 500});
 	ax.title = "TEST";
 	ax.x_label = "TEST X";
 	ax.y_label = "TEST Y";
+	ax.x_range = (Vector3){-10, 0.01 , 10};
+	ax.y_range = (Vector3){-1.5, 0.01, 1.5};
+	axis_add_plot(&ax, plot_create_F(ax.x_range, cos, SOLID, NULL, ORANGE));
+	axis_add_plot(&ax, plot_create_F(ax.x_range, wave_test, SOLID, NULL, PINK));
+	axis_add_plot(&ax, plot_create_F(ax.x_range, test, SCATTER, NULL, BLACK));
 
 	while (!WindowShouldClose())
 	{
 		BeginDrawing();
-		ClearBackground(BLACK);
+		ClearBackground(WHITE);
 		DrawFPS(0, 0);
-
-		plot_lines_F(ax, cos, (Vector3){-10, 0.1, 10 * PI}, ORANGE);
-		plot_scatter_F(ax, sin, (Vector3){-10, 0.1, 10 * PI}, RED);
-		plot_lines_F(ax, exp, (Vector3){-10, 0.1, 3}, GREEN);
-		plot_lines_F(ax, test, (Vector3){-10, 0.05, 10 * PI}, PINK);
 		axis_show(ax);
-
+		plot_update_one(ax, 1);
 		EndDrawing();
 	}
+	axis_destroy(ax);
+	CloseWindow();
 }

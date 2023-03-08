@@ -1,8 +1,11 @@
 #include "rayplot.h"
 
+//TODO
+// CHANGE EVERY STRUCTURE PARAMETER TO POINTER
+
 static void	_axis_draw_inner_frame(t_axis2D ax)
 {
-	DrawRectangleLinesEx(ax.bounds, (float)2.0f, WHITE);
+	DrawRectangleLinesEx(ax.bounds, (float)2.0f, DEFAULT_COLOR);
 }
 
 static void	_axis_draw_outter_frame(t_axis2D ax)
@@ -14,7 +17,7 @@ static void	_axis_draw_outter_frame(t_axis2D ax)
 		ax.bounds.width + ax.padding,
 		ax.bounds.height + ax.padding
 	};
-	DrawRectangleLinesEx(new_bounds, (float)2.0f, WHITE);
+	DrawRectangleLinesEx(new_bounds, (float)2.0f, DEFAULT_COLOR);
 }
 
 static void	_axis_draw_x_grid(t_axis2D ax)
@@ -27,7 +30,7 @@ static void	_axis_draw_x_grid(t_axis2D ax)
 static void	_axis_draw_x_grid_num(t_axis2D ax)
 {
 	float	step = (ax.bounds.width) / (ax.x_grid + 1);
-	float	step2 = (ax.x_range.y - ax.x_range.x) / (ax.x_grid + 1);
+	float	step2 = (ax.x_range.z - ax.x_range.x) / (ax.x_grid + 1);
 
 	for (float i = ax.bounds.x, k = ax.x_range.x; i < ax.bounds.x + ax.bounds.width; i += step, k += step2)
 		DrawTextPro(ax.grid_num_text_font, TextFormat(DECIMAL_FORMAT, k),
@@ -51,9 +54,9 @@ static void	_axis_draw_y_grid_num(t_axis2D ax)
 	Vector2	text_dim;
 
 	float	step = (ax.bounds.height) / (ax.y_grid + 1);
-	float	step2 = (ax.y_range.y - ax.y_range.x) / (ax.y_grid + 1);
+	float	step2 = (ax.y_range.z - ax.y_range.x) / (ax.y_grid + 1);
 
-	for (float i = ax.bounds.y, k = ax.y_range.y; i < ax.bounds.y + ax.bounds.height; i += step, k -= step2)
+	for (float i = ax.bounds.y, k = ax.y_range.z; i < ax.bounds.y + ax.bounds.height; i += step, k -= step2)
 	{
 		text_dim = MeasureTextEx(ax.grid_num_text_font, TextFormat(DECIMAL_FORMAT, k), ax.grid_num_text_size, SPACING);
 		DrawTextPro(ax.grid_num_text_font, TextFormat(DECIMAL_FORMAT, k),
@@ -100,7 +103,7 @@ static void	_axis_draw_y_label(t_axis2D ax)
 
 	text_dim = MeasureTextEx(ax.y_label_text_font, ax.y_label, ax.y_label_text_size, SPACING);
 	DrawTextPro(ax.y_label_text_font, ax.y_label,
-		(Vector2){ax.bounds.x - 2 * ax.grid_num_text_size, ax.bounds.y + ax.bounds.height/2},
+		(Vector2){ax.bounds.x - (2 * ax.grid_num_text_size + SPACING), ax.bounds.y + ax.bounds.height/2},
 		(Vector2){text_dim.x/2, text_dim.y},
 		DEG_ACW_90_ROTATION,
 		ax.y_label_text_size,
@@ -109,7 +112,7 @@ static void	_axis_draw_y_label(t_axis2D ax)
 }
 
 /*-------------------------------------------------------*/
-void	axis_create(t_axis2D *ax, Rectangle bounds)
+t_axis2D	*axis_create(t_axis2D *ax, Rectangle bounds)
 {
 	ax->padding = DEFAULT_PADDING;
 
@@ -121,26 +124,30 @@ void	axis_create(t_axis2D *ax, Rectangle bounds)
 	ax->bounds.x -= ax->origin.x * ax->bounds.width;
 	ax->bounds.y -= ax->origin.y * ax->bounds.height;
 
-	ax->x_range = (Vector2)DEFAULT_X_RANGE;
-	ax->y_range = (Vector2)DEFAULT_Y_RANGE;
+	ax->x_range = (Vector3)DEFAULT_X_RANGE;
+	ax->y_range = (Vector3)DEFAULT_Y_RANGE;
 
 	ax->x_grid = 5;
-	ax->x_grid_color = LIGHTGRAY;
+	ax->x_grid_color = DEFAULT_COLOR;
 	ax->y_grid = 5;
-	ax->y_grid_color = LIGHTGRAY;
+	ax->y_grid_color = DEFAULT_COLOR;
 	ax->x_grid_num = true; ax->y_grid_num = true;
 	ax->grid_num_text_size = DEFAULT_GRID_NUM_TEXT_SIZE;
-	ax->grid_num_text_color = WHITE; ax->grid_num_text_font = GetFontDefault();
+	ax->grid_num_text_color = DEFAULT_COLOR; ax->grid_num_text_font = DEFAULT_FONT;
 
 	ax->title = NULL;
 	ax->title_text_size = DEFAULT_TITLE_TEXT_SIZE;
-	ax->title_text_color = WHITE; ax->title_text_font = GetFontDefault();
+	ax->title_text_color = DEFAULT_COLOR; ax->title_text_font = DEFAULT_FONT;
 	ax->x_label = NULL;
 	ax->x_label_text_size = DEFAULT_LABEL_TEXT_SIZE;
-	ax->x_label_text_color = WHITE; ax->x_label_text_font = GetFontDefault();
+	ax->x_label_text_color = DEFAULT_COLOR; ax->x_label_text_font = DEFAULT_FONT;
 	ax->y_label = NULL;
 	ax->y_label_text_size = DEFAULT_LABEL_TEXT_SIZE;
-	ax->y_label_text_color = WHITE; ax->y_label_text_font = GetFontDefault();
+	ax->y_label_text_color = DEFAULT_COLOR; ax->y_label_text_font = DEFAULT_FONT;
+
+	ax->plots_size = 0;
+
+	return (ax);
 }
 
 Vector2	axis_map_to_screen(t_axis2D ax, Vector2 p)
@@ -149,10 +156,10 @@ Vector2	axis_map_to_screen(t_axis2D ax, Vector2 p)
 	{
 		ax.bounds.x
 			+ (p.x - ax.x_range.x) * ax.bounds.width
-			/ (ax.x_range.y - ax.x_range.x),
+			/ (ax.x_range.z - ax.x_range.x),
 		ax.bounds.y + ax.bounds.height
 			- (p.y - ax.y_range.x) * ax.bounds.height
-			/ (ax.y_range.y - ax.y_range.x)
+			/ (ax.y_range.z - ax.y_range.x)
 	};
 	new_pos.x = new_pos.x < ax.bounds.x ? ax.bounds.x : new_pos.x;
 	new_pos.x = new_pos.x > (ax.bounds.x + ax.bounds.width) ? ax.bounds.x + ax.bounds.width : new_pos.x;
@@ -162,11 +169,19 @@ Vector2	axis_map_to_screen(t_axis2D ax, Vector2 p)
 	return (new_pos);
 }
 
+static void	_axis_draw_plots(t_axis2D ax)
+{
+	for (int i = 0; i < ax.plots_size; i++)
+		plot(ax, ax.plots[i]);
+}
+
 void	axis_show(t_axis2D ax)
 {
-	_axis_draw_outter_frame(ax);
 	if (ax.frame)
+	{
 		_axis_draw_inner_frame(ax);
+		_axis_draw_outter_frame(ax);
+	}
 	if (ax.x_grid)
 		_axis_draw_x_grid(ax);
 	if (ax.y_grid)
@@ -180,5 +195,19 @@ void	axis_show(t_axis2D ax)
 	if (ax.x_grid_num)
 		_axis_draw_x_grid_num(ax);
 	if (ax.x_grid_num)
-	_axis_draw_y_grid_num(ax);
+		_axis_draw_y_grid_num(ax);
+	_axis_draw_plots(ax);
+}
+
+void	axis_add_plot(t_axis2D *ax, t_plot pl)
+{
+	ax->plots[ax->plots_size] = pl;
+	pl.plot_id = ax->plots_size;
+	ax->plots_size += 1;
+}
+
+void	axis_destroy(t_axis2D ax)
+{
+	for (int i = 0; i < ax.plots_size; i++)
+		plot_destroy(ax.plots[i]);
 }

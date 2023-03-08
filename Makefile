@@ -1,4 +1,4 @@
-NAME		=	rayplot
+NAME		=	bin/rayplot
 
 #----- HEADER -----
 H_DIR	=	include
