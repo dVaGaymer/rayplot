@@ -4,6 +4,7 @@ NAME		=	rayplot
 H_DIR	=	include
 H		=	$(H_DIR)/main.h \
 			$(H_DIR)/macro.h \
+			$(H_DIR)/hooke.h \
 			$(H_DIR)/rayplot.h
 
 #----- SRC ----

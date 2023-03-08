@@ -133,5 +133,20 @@
    "obj/main.o"
   ],
   "file": "src/main.c"
+ },
+ {
+  "directory": "/Users/al7aro/Documents/Projects/rayplot",
+  "arguments": [
+   "clang",
+   "-Iinclude",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-c",
+   "src/hooke/hooke.c",
+   "-o",
+   "obj/hooke/hooke.o"
+  ],
+  "file": "src/hooke/hooke.c"
  }
 ]
