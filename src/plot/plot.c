@@ -2,10 +2,15 @@
 
 void	plot_lines_D(t_axis2D ax, Vector2 *data, int size, Color col)
 {
-	(void)ax;
-	(void)data;
-	(void)size;
-	(void)col;
+	Vector2	prev;
+	Vector2	p;
+	prev = axis_map_to_screen(ax, (Vector2)data[0]);
+	for (int i = 0; i < size - 1; i++)
+	{
+		p = axis_map_to_screen(ax, (Vector2)data[i]);
+		DrawLineV(prev, p, col);
+		prev = p;
+	}
 }
 
 void	plot_scatter_D(t_axis2D ax, Vector2 *data, int size, Color col)
