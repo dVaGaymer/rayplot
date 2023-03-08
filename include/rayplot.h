@@ -57,9 +57,10 @@ typedef struct	s_axis2D
 	int		y_grid;
 	Color	y_grid_color;
 	//Choose whether the grid is labeled with its num. values
-	bool	grid_num;
-	Color	grid_num_color;
-	int		grid_num_text_size;
+	bool	x_grid_num;
+	bool	y_grid_num;
+	Color	grid_num_text_color;
+	int		grid_num_text_size; Font	grid_num_text_font;
 
 	//whether the axis include a legend of its plots
 	bool	legend;
