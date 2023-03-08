@@ -3,6 +3,7 @@
 
 # include "raylib.h"
 # include "macro.h"
+# include <stdlib.h>
 
 typedef double (*t_func1)(double);
 
@@ -15,12 +16,20 @@ typedef enum	e_line_type
 
 typedef struct	s_plot
 {
-	Vector2	*data;
-	t_func1	func;
+	int		plot_id;
+	Vector2		*data;
+	t_func1		func;
+	//If data -> size.x = size.y = size.z = size
+	//If func -> size.x = left_lim | size.y = step | size.z = right_lim
+	Vector3		range;
+	int			size;
 
 	t_line_type	type;
 	Color		color;
 	char		*title;
+	float		marker_size;
+
+	bool		enabled;
 }				t_plot;
 
 typedef struct	s_axis2D
@@ -48,8 +57,8 @@ typedef struct	s_axis2D
 	Vector2		origin;
 
 	// Axis num range
-	Vector2	x_range;
-	Vector2	y_range;
+	Vector3	x_range;
+	Vector3	y_range;
 
 	// Amount of grid lines for each axis -----> 0 for no grid
 	int		x_grid;
@@ -67,20 +76,29 @@ typedef struct	s_axis2D
 
 	int		padding;
 
-	t_plot		plots[MAX_NUMBER_OF_PLOTS];
+	int		plots_size;
+	t_plot	plots[MAX_NUMBER_OF_PLOTS];
 /*------------------------------------------------------------------------------------*/
 }				t_axis2D;
 
 //------- PLOT -------
-void	plot_lines_D(t_axis2D ax, Vector2 *data, int size, Color col);
-void	plot_scatter_D(t_axis2D ax, Vector2 *data, int size, Color col);
-//TODO version with static vars to make plots faster?
-void	plot_lines_F(t_axis2D ax, double (*f)(double), Vector3 range, Color col);
-void	plot_scatter_F(t_axis2D ax, float (*f)(float), Vector2 range);
+void	plot(t_axis2D ax, t_plot pl);
+void	plot_update_one(t_axis2D ax, int id);
+t_plot	plot_create_F(Vector3 range, t_func1 f, t_line_type type, char *title, Color col);
+t_plot	plot_create_D(int size, Vector2 *data, t_line_type type, char *title, Color col);
+void	plot_destroy(t_plot pl);
+
+/* FOLLOWING FUNCTIONS WILL WORK OVER NEWLY CREATED PLOT*/
+t_axis2D	plot_lines_D(Vector2 *data, int size, Color col);
+t_axis2D	plot_scatter_D(Vector2 *data, int size, int marker_size, Color col);
+t_axis2D	plot_lines_F(Vector3 range, double (*f)(double), Color col);
+t_axis2D	plot_scatter_F(Vector3 range, double (*f)(double), Color col);
 
 //------ AXIS ------
-Vector2	axis_map_to_screen(t_axis2D ax, Vector2 p);
-void	axis_create(t_axis2D *ax, Rectangle bounds);
-void	axis_show(t_axis2D ax);
+Vector2		axis_map_to_screen(t_axis2D ax, Vector2 p);
+t_axis2D	*axis_create(t_axis2D *ax, Rectangle bounds);
+void		axis_show(t_axis2D ax);
+void	axis_destroy(t_axis2D ax);
+void	axis_add_plot(t_axis2D *ax, t_plot pl);
 
 #endif
