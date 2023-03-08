@@ -33,3 +33,10 @@ void	plot_lines_F(t_axis2D ax, double (*f)(double), Vector3 range, Color col)
 		prev = p;
 	}
 }
+
+//EACH CALL DO ALL THE CALCULATIONS AGAIN
+void	plot_scatter_F(t_axis2D ax, double (*f)(double), Vector3 range, Color col)
+{
+	for (float i = range.x; i < range.z; i += range.y)
+		DrawPixelV(axis_map_to_screen(ax, (Vector2){i, f(i)}), col);
+}

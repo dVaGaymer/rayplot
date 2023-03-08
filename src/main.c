@@ -25,7 +25,7 @@ int	main(void)
 		DrawFPS(0, 0);
 
 		plot_lines_F(ax, cos, (Vector3){-10, 0.1, 10 * PI}, ORANGE);
-		plot_lines_F(ax, sin, (Vector3){-10, 0.1, 10 * PI}, RED);
+		plot_scatter_F(ax, sin, (Vector3){-10, 0.1, 10 * PI}, RED);
 		plot_lines_F(ax, exp, (Vector3){-10, 0.1, 3}, GREEN);
 		plot_lines_F(ax, test, (Vector3){-10, 0.05, 10 * PI}, PINK);
 		axis_show(ax);

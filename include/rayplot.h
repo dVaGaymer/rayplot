@@ -76,7 +76,7 @@ void	plot_lines_D(t_axis2D ax, Vector2 *data, int size, Color col);
 void	plot_scatter_D(t_axis2D ax, Vector2 *data, int size, Color col);
 //TODO version with static vars to make plots faster?
 void	plot_lines_F(t_axis2D ax, double (*f)(double), Vector3 range, Color col);
-void	plot_scatter_F(t_axis2D ax, float (*f)(float), Vector2 range);
+void	plot_scatter_F(t_axis2D ax, double (*f)(double), Vector3 range, Color col);
 
 //------ AXIS ------
 Vector2	axis_map_to_screen(t_axis2D ax, Vector2 p);
