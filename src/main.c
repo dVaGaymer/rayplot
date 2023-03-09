@@ -12,9 +12,9 @@ int	main(void)
 
 	t_axis2D	ax;
 	axis_create(&ax, (Rectangle){WIDTH/2, HEIGHT/2, WIDTH * 0.9, 500});
-	ax.title = "TEST";
-	ax.x_label = "TEST X";
-	ax.y_label = "TEST Y";
+	ax.title = "Some cool Plots";
+	ax.x_label = "X axis";
+	ax.y_label = "Y axis";
 	ax.x_range = (Vector3){-10, 0.01 , 10};
 	ax.y_range = (Vector3){-1.5, 0.01, 1.5};
 	axis_add_plot(&ax, plot_create_F(ax.x_range, cos, SOLID, NULL, ORANGE));
@@ -26,6 +26,16 @@ int	main(void)
 
 	while (!WindowShouldClose())
 	{
+		/* INPUT TESTS */
+		if (IsKeyDown('W'))
+			ax.bounds.y -= 3;
+		if (IsKeyDown('A'))
+			ax.bounds.x -= 3;
+		if (IsKeyDown('S'))
+			ax.bounds.y += 3;
+		if (IsKeyDown('D'))
+			ax.bounds.x += 3;
+		
 		BeginDrawing();
 		ClearBackground(WHITE);
 		DrawFPS(0, 0);
