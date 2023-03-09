@@ -12,8 +12,8 @@ int	main(void)
 
 	t_axis2D	ax;
 	axis_create(&ax, (Rectangle){WIDTH/2, HEIGHT/2, WIDTH * 0.9, 500});
-	ax.x_range = (Vector3){-5, 0.01, 5};
-	ax.y_range = (Vector3){-2, 0.01, 2};
+	ax.x_range = (Vector3){0, 0.01, 6};
+	ax.y_range = (Vector3){-6, 0.01, 6};
 	ax.title = "Hooke's Law";
 	ax.x_label = "x / m";
 	ax.y_label = "t / s";
@@ -30,6 +30,8 @@ int	main(void)
 	hooke_vel_data(&h);
 	axis_add_plot(&ax, plot_create_D(h.steps, h.data + 1, SOLID, NULL, BLACK));
 	ax.plots[3].title = "k=2 m=0.01";
+	axis_add_plot(&ax, plot_create_D(h.steps, h.vel_data + 1, SOLID, NULL, BLACK));
+	ax.plots[4].title = "vel";
 
 	while (!WindowShouldClose())
 	{
@@ -45,11 +47,16 @@ int	main(void)
 
 		BeginDrawing();
 		ClearBackground(WHITE);
-		DrawFPS(0, 0);
+		DrawFPS(WIDTH - 75, 0);
 		axis_show(&ax);
 		plot_update_one(&ax, 1);
 		EndDrawing();
+
+		/* RAYGUI */
+		GuiPanel((Rectangle){0, 0, 50, HEIGHT}, "");
+		GuiSlider((Rectangle){50/2 - 25, 130, 50, 30}, "", "", 0, 1, 10);
 	}
+	//TODO: Check this function
 	axis_destroy(&ax);
 	CloseWindow();
 }
