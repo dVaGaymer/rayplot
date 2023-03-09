@@ -18,15 +18,18 @@ int	main(void)
 	ax.x_label = "x / m";
 	ax.y_label = "t / s";
 	axis_add_plot(&ax, plot_create_F(ax.x_range, cos, SOLID, NULL, ORANGE));
-	ax.plots[0].title = "Cos";
+	ax.plots[0].title = "cos(x)";
 	axis_add_plot(&ax, plot_create_F(ax.x_range, wave_test, SOLID, NULL, PINK));
+	ax.plots[1].title = "wave_test";
 	axis_add_plot(&ax, plot_create_F(ax.x_range, test, SCATTER, NULL, GREEN));
+	ax.plots[2].title = "test";
 
 	t_hooke h;
 	hooke_init(&h, 1000);
 	hooke_reset(&h, 2, 0.01, 5, 0.4, 0);
 	hooke_vel_data(&h);
 	axis_add_plot(&ax, plot_create_D(h.steps, h.data + 1, SOLID, NULL, BLACK));
+	ax.plots[3].title = "k=2 m=0.01";
 
 	while (!WindowShouldClose())
 	{

@@ -13,5 +13,50 @@
    "obj/main.o"
   ],
   "file": "src/main.c"
+ },
+ {
+  "directory": "/Users/al7aro/Documents/Projects/rayplot",
+  "arguments": [
+   "clang",
+   "-Iinclude",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-c",
+   "src/axis/axis.c",
+   "-o",
+   "obj/axis/axis.o"
+  ],
+  "file": "src/axis/axis.c"
+ },
+ {
+  "directory": "/Users/al7aro/Documents/Projects/rayplot",
+  "arguments": [
+   "clang",
+   "-Iinclude",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-c",
+   "src/hooke/hooke.c",
+   "-o",
+   "obj/hooke/hooke.o"
+  ],
+  "file": "src/hooke/hooke.c"
+ },
+ {
+  "directory": "/Users/al7aro/Documents/Projects/rayplot",
+  "arguments": [
+   "clang",
+   "-Iinclude",
+   "-Wall",
+   "-Wextra",
+   "-Werror",
+   "-c",
+   "src/plot/plot.c",
+   "-o",
+   "obj/plot/plot.o"
+  ],
+  "file": "src/plot/plot.c"
  }
 ]
