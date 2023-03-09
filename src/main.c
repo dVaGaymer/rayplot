@@ -1,9 +1,6 @@
 #include "main.h"
 #include <stdio.h>
 
-# define WIDTH 1200.0f
-# define HEIGHT 800.0f
-
 double test(double x) { return (sin(x) * cos(2 * x * x) * cos(2 * x)); }
 
 double wave_test(double x) { return(sin (x - GetTime())); }
@@ -21,6 +18,7 @@ int	main(void)
 	ax.x_label = "x / m";
 	ax.y_label = "t / s";
 	axis_add_plot(&ax, plot_create_F(ax.x_range, cos, SOLID, NULL, ORANGE));
+	ax.plots[0].title = "Cos";
 	axis_add_plot(&ax, plot_create_F(ax.x_range, wave_test, SOLID, NULL, PINK));
 	axis_add_plot(&ax, plot_create_F(ax.x_range, test, SCATTER, NULL, GREEN));
 
@@ -32,13 +30,23 @@ int	main(void)
 
 	while (!WindowShouldClose())
 	{
+		/* INPUT TESTS */
+		if (IsKeyDown('W'))
+			ax.bounds.y -= 3;
+		if (IsKeyDown('A'))
+			ax.bounds.x -= 3;
+		if (IsKeyDown('S'))
+			ax.bounds.y += 3;
+		if (IsKeyDown('D'))
+			ax.bounds.x += 3;
+
 		BeginDrawing();
 		ClearBackground(WHITE);
 		DrawFPS(0, 0);
-		axis_show(ax);
-		plot_update_one(ax, 1);
+		axis_show(&ax);
+		plot_update_one(&ax, 1);
 		EndDrawing();
 	}
-	axis_destroy(ax);
+	axis_destroy(&ax);
 	CloseWindow();
 }

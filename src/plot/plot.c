@@ -1,40 +1,40 @@
 #include "rayplot.h"
 
-static void	_plot_lines_D(t_axis2D ax, Vector2 *data, int size, Color col)
+//TODO: Send to plot lines, the t_plot directly
+static void	_plot_lines_D(t_axis2D const *ax, t_plot const *pl)
 {
 	Vector2	prev;
 	Vector2	p;
-	prev = axis_map_to_screen(ax, (Vector2)data[0]);
+	prev = axis_map_to_screen(ax, (Vector2)pl->data[0]);
 
-	for (int i = 0; i < size - 1; i++)
+	for (int i = 0; i < pl->size - 1; i++)
 	{
-		p = axis_map_to_screen(ax, (Vector2)data[i]);
-		DrawLineV(prev, p, col);
+		p = axis_map_to_screen(ax, (Vector2)pl->data[i]);
+		DrawLineEx(prev, p, pl->marker_size, pl->color);
 		prev = p;
 	}
 }
 
-static void	_plot_scatter_D(t_axis2D ax, Vector2 *data, int size, int marker_size, Color col)
+static void	_plot_scatter_D(t_axis2D const *ax, t_plot *pl)
 {
-	(void)marker_size;
-	for (int i = 0; i < size; i++)
-		DrawCircleV(axis_map_to_screen(ax, (Vector2)data[i]), marker_size, col);
+	for (int i = 0; i < pl->size; i++)
+		DrawCircleV(axis_map_to_screen(ax, (Vector2)pl->data[i]), pl->marker_size, pl->color);
 }
 
-void	plot(t_axis2D ax, t_plot pl)
+void	plot(t_axis2D const *ax, t_plot pl)
 {
 	if (!pl.enabled)
 		return ;
 	if (SOLID == pl.type)
-		_plot_lines_D(ax, pl.data, pl.size, pl.color);
+		_plot_lines_D(ax, &pl);
 	else if (SCATTER == pl.type)
-		_plot_scatter_D(ax, pl.data, pl.size, pl.marker_size, pl.color);
+		_plot_scatter_D(ax, &pl);
 }
 
 //Not a good signatura, this should belong to axis?
-void	plot_update_one(t_axis2D ax, int id)
+void	plot_update_one(t_axis2D *ax, int id)
 {
-	t_plot	pl = ax.plots[id];
+	t_plot	pl = ax->plots[id];
 
 	for (int i = 0; i < pl.size; i ++)
 		pl.data[i] = (Vector2){pl.range.x + pl.range.y * i, pl.func(pl.range.x + pl.range.y * i)};

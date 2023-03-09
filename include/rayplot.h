@@ -41,7 +41,8 @@ typedef struct	s_axis2D
 	int		title_text_size;
 	Color	title_text_color; Font	title_text_font;
 
-	bool	frame;
+	float	inner_frame;
+	float	outter_frame;
 
 	char	*x_label;
 	int		x_label_text_size;
@@ -66,13 +67,16 @@ typedef struct	s_axis2D
 	int		y_grid;
 	Color	y_grid_color;
 	//Choose whether the grid is labeled with its num. values
-	bool	x_grid_num;
-	bool	y_grid_num;
+	int		x_grid_num;
+	int		y_grid_num;
 	Color	grid_num_text_color;
 	int		grid_num_text_size; Font	grid_num_text_font;
+	float	x_grid_thickness;
+	float	y_grid_thickness;
 
 	//whether the axis include a legend of its plots
 	bool	legend;
+	float	legend_text_size;
 
 	int		padding;
 
@@ -82,12 +86,13 @@ typedef struct	s_axis2D
 }				t_axis2D;
 
 //------- PLOT -------
-void	plot(t_axis2D ax, t_plot pl);
-void	plot_update_one(t_axis2D ax, int id);
+void	plot(t_axis2D const *ax, t_plot pl); //const | does not change axis
+void	plot_update_one(t_axis2D *ax, int id);
 t_plot	plot_create_F(Vector3 range, t_func1 f, t_line_type type, char *title, Color col);
 t_plot	plot_create_D(int size, Vector2 *data, t_line_type type, char *title, Color col);
 void	plot_destroy(t_plot pl);
 
+/* NOT IMPLEMENTED YET */
 /* FOLLOWING FUNCTIONS WILL WORK OVER NEWLY CREATED PLOT*/
 t_axis2D	plot_lines_D(Vector2 *data, int size, Color col);
 t_axis2D	plot_scatter_D(Vector2 *data, int size, int marker_size, Color col);
@@ -95,10 +100,10 @@ t_axis2D	plot_lines_F(Vector3 range, double (*f)(double), Color col);
 t_axis2D	plot_scatter_F(Vector3 range, double (*f)(double), Color col);
 
 //------ AXIS ------
-Vector2		axis_map_to_screen(t_axis2D ax, Vector2 p);
+Vector2		axis_map_to_screen(t_axis2D const *ax, Vector2 p); //const | does not change axis
 t_axis2D	*axis_create(t_axis2D *ax, Rectangle bounds);
-void		axis_show(t_axis2D ax);
-void	axis_destroy(t_axis2D ax);
-void	axis_add_plot(t_axis2D *ax, t_plot pl);
+void		axis_show(t_axis2D const *ax); //const | does not change axis
+void		axis_destroy(t_axis2D *ax);
+void		axis_add_plot(t_axis2D *ax, t_plot pl);
 
 #endif
