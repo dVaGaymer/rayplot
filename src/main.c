@@ -35,7 +35,7 @@ int	main(void)
 			ax.bounds.y += 3;
 		if (IsKeyDown('D'))
 			ax.bounds.x += 3;
-		
+
 		BeginDrawing();
 		ClearBackground(WHITE);
 		DrawFPS(0, 0);
@@ -43,6 +43,7 @@ int	main(void)
 		plot_update_one(&ax, 1);
 		EndDrawing();
 	}
+	//TODO: check this function
 	axis_destroy(&ax);
 	CloseWindow();
 }
