@@ -142,8 +142,8 @@ t_axis2D	*axis_create(t_axis2D *ax, Rectangle bounds)
 {
 	ax->padding = DEFAULT_PADDING;
 
-	ax->inner_frame = 2; //thicknes
-	ax->outter_frame = false; //thickness
+	ax->inner_frame = DEFAULT_INNER_FRAME_THICKNESS;
+	ax->outter_frame = DEFAULT_OUTTER_FRAME_THICKNESS;
 	ax->bounds = bounds;
 	ax->bounds.width -= ax->padding;
 	ax->bounds.height -= ax->padding;
@@ -154,15 +154,15 @@ t_axis2D	*axis_create(t_axis2D *ax, Rectangle bounds)
 	ax->x_range = (Vector3)DEFAULT_X_RANGE;
 	ax->y_range = (Vector3)DEFAULT_Y_RANGE;
 
-	ax->x_grid = 5;
-	ax->y_grid = 5;
+	ax->x_grid = DEFAULT_X_GRID;
+	ax->y_grid = DEFAULT_Y_GRID;
 	ax->x_grid_color = DEFAULT_COLOR;
 	ax->y_grid_color = DEFAULT_COLOR;
-	ax->x_grid_num = 3; ax->y_grid_num = 3;
+	ax->x_grid_num = DEFAULT_X_GRID; ax->y_grid_num = DEFAULT_Y_GRID;
 	ax->grid_num_text_size = DEFAULT_GRID_NUM_TEXT_SIZE;
 	ax->grid_num_text_color = DEFAULT_COLOR; ax->grid_num_text_font = DEFAULT_FONT;
-	ax->x_grid_thickness = 1;
-	ax->y_grid_thickness = 1;
+	ax->x_grid_thickness = DEFAULT_X_GRID_THICKNESS;
+	ax->y_grid_thickness = DEFAULT_Y_GRID_THICKNESS;
 
 	ax->title = NULL;
 	ax->title_text_size = DEFAULT_TITLE_TEXT_SIZE;
@@ -177,8 +177,7 @@ t_axis2D	*axis_create(t_axis2D *ax, Rectangle bounds)
 	ax->legend = true;
 	ax->legend_text_size = DEFAULT_LEGEND_TEXT_SIZE;
 
-	ax->plots_size = 0;
-
+	ax->plots_size = INITIAL_PLOT_SIZE;
 	return (ax);
 }
 

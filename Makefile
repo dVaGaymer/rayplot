@@ -1,4 +1,5 @@
-NAME		=	bin/rayplot
+BIN_DIR		=	bin/
+NAME		=	$(BIN_DIR)/rayplot
 
 #----- HEADER -----
 H_DIR	=	include
@@ -26,11 +27,13 @@ $(addprefix $(OBJ_DIR)/, %.o): $(addprefix $(SRC_DIR)/, %.c) $(HEAD)
 	$(CC) $(H_FLAGS) $(C_FLAGS) -c $< -o $@
 
 #----- RULES
-all: $(OBJ_DIR) $(NAME)
+all: $(OBJ_DIR) $(BIN_DIR) $(NAME)
 
 $(OBJ_DIR):
 	@cp -a $(SRC_DIR) $(OBJ_DIR)
 	@$(RM) $(OBJ:.o=.c)
+$(BIN_DIR):
+	@mkdir $(BIN_DIR)
 
 $(NAME): $(OBJ) $(H) $(SRC)
 	$(CC) $(H_FLAGS) $(LIB_FLAGS) $(OBJ) -o $@
@@ -39,7 +42,7 @@ clean:
 	$(RM) -rf $(OBJ_DIR)
 
 fclean: clean
-	$(RM) $(NAME)
+	$(RM) -rf $(BIN_DIR)
 
 re: fclean all
 
