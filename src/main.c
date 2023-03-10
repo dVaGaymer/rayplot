@@ -21,25 +21,25 @@ int	main(void)
 	t_axis2D	ax;
 	axis_create(&ax, (Rectangle){PANEL_WIDTH + WIDTH/2, HEIGHT/4, WIDTH * 0.9, 400});
 	ax.x_range = (Vector3){0, 0.01, tf};
-	ax.y_range = (Vector3){-6, 0.01, 6};
+	ax.y_range = (Vector3){-2, 0.01, 2};
 	ax.title = "Hooke's Law";
 	ax.x_label = "x / m";
 	ax.y_label = "t / s";
 
 	t_axis2D	ax2;
 	axis_create(&ax2, (Rectangle){.x=PANEL_WIDTH + WIDTH/2, .y=HEIGHT*6/8, 700, 300});
-	ax2.x_range = (Vector3){.x=-0.5, .y = 0.01, .z=0.5};
-	ax2.y_range = (Vector3){.x=-1, .y = 0.01, .z=1};
+	ax2.x_range = (Vector3){.x=-0.8, .y = 0.01, .z=0.8};
+	ax2.y_range = (Vector3){.x=-0.3, .y = 0.01, .z=0.3};
 	ax2.legend = false;
 
 	t_hooke h;
-	hooke_init(&h, 1000);
+	hooke_init(&h, 500);
 	// k = 2 | m = 0.01 | v0 = 0
 	// hooke_reset(&h, 2, 0.01, 6, 0.4, 0); //T = 2pi/sqrt(k/m) = 0.444
 	// k = 10 | m = 0.1 | v0 = 0
-	hooke_reset(&h, 10, 0.1, tf, 0.4, 0); //T = 2pi/sqrt(k/m) = 0.628
+	hooke_reset(&h, 10, 0.1, tf, 0.6, 0); //T = 2pi/sqrt(k/m) = 0.628
 	// k = 5 | m = 0.5 | v0 = 0
-	hooke_reset(&h, 5, 0.5, tf, 0.4, 0); //T = 2pi/sqrt(k/m) = 1.98
+	hooke_reset(&h, 5, 0.5, tf, 0.6, 0); //T = 2pi/sqrt(k/m) = 1.98
 	hooke_vel_data(&h);
 	char *title = strdup(TextFormat("Hooke T=%.2f", 0.0));
 	axis_add_plot(&ax, plot_create_D(h.steps, h.data, SOLID, NULL, RED));
@@ -56,7 +56,7 @@ int	main(void)
 		/* AXIS */
 		//--------------------------------------------------------------------------------------
 		free(ax.plots[0].title);
-		title = strdup(TextFormat("Hooke T=%.2fs", hooke_get_period(h)));
+		title = strdup(TextFormat("%.1f %.1f %.1f", h.k, h.m, hooke_get_period(h)));
 		ax.plots[0].title = title;
 
 		/* INPUT TESTS */
