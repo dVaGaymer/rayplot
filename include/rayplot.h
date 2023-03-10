@@ -5,7 +5,7 @@
 # include "macro.h"
 # include <stdlib.h>
 
-typedef double (*t_func1)(double);
+typedef double (*t_func1)(double, void *);
 
 typedef enum	e_line_type
 {
@@ -16,9 +16,10 @@ typedef enum	e_line_type
 
 typedef struct	s_plot
 {
-	int		plot_id;
+	int			plot_id;
 	Vector2		*data;
 	t_func1		func;
+	void		*func_param;
 	//If data -> size.x = size.y = size.z = size
 	//If func -> size.x = left_lim | size.y = step | size.z = right_lim
 	Vector3		range;
@@ -88,9 +89,9 @@ typedef struct	s_axis2D
 //------- PLOT -------
 void	plot_draw(t_axis2D const *ax, t_plot pl); //const | does not change axis
 void	plot_recal(t_axis2D *ax, int id);
-t_plot	plot_F(Vector3 range, t_func1 f);
+t_plot	plot_F(Vector3 range, t_func1 f, void *param);
 t_plot	plot_D(int size, Vector2 *data);
-t_plot	plot_MAP(int size, Vector2 *data, t_func1 f, bool inverse);
+t_plot	plot_MAP(int size, Vector2 *data, t_func1 f, bool inverse, void *param);
 void	plot_destroy(t_plot pl);
 
 /* NOT IMPLEMENTED YET */
