@@ -67,9 +67,9 @@ float	hooke_get_period(t_hooke h)
 	float	t[2];
 	for (int k = 0; k < 2; k++)
 		for (int i = start; i < h.steps - 1; i++)
-			if (h.data[i - 1].x < h.data[i].x && h.data[i].x > h.data[i + 1].x)
+			if (h.data[i - 1].y < h.data[i].y && h.data[i].y > h.data[i + 1].y)
 			{
-				t[k] = h.data[i].y;
+				t[k] = h.data[i].x;
 				start = i + 1;
 				break;
 			}

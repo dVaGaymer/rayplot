@@ -26,7 +26,7 @@ typedef struct	s_plot
 
 	t_line_type	type;
 	Color		color;
-	char		*title;
+	char	*title;
 	float		marker_size;
 
 	bool		enabled;

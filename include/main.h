@@ -6,5 +6,6 @@
 # include "rayplot.h"
 # include "hooke.h"
 # include <math.h>
+# include <string.h>
 
 #endif
