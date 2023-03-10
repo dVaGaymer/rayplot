@@ -17,12 +17,23 @@ int	main(void)
 	ax.y_label = "Y axis";
 	ax.x_range = (Vector3){-10, 0.01 , 10};
 	ax.y_range = (Vector3){-1.5, 0.01, 1.5};
-	axis_add_plot(&ax, plot_create_F(ax.x_range, cos, SOLID, NULL, ORANGE));
+	axis_add_plot(&ax, plot_F(ax.x_range, cos));
 	ax.plots[0].title = "Cos";
-	axis_add_plot(&ax, plot_create_F(ax.x_range, wave_test, SOLID, NULL, PINK));
+	ax.plots[0].type = SOLID;
+	ax.plots[0].color = GREEN;
+	axis_add_plot(&ax, plot_F(ax.x_range, wave_test));
 	ax.plots[1].title = "wave_test";
-	axis_add_plot(&ax, plot_create_F(ax.x_range, test, SCATTER, NULL, BLACK));
+	ax.plots[1].type = SOLID;
+	ax.plots[1].color = BLACK;
+	axis_add_plot(&ax, plot_F(ax.x_range, test));
 	ax.plots[2].title = "test";
+	ax.plots[2].type = SCATTER;
+	ax.plots[2].color = ORANGE;
+	axis_add_plot(&ax,
+		plot_MAP(ax.plots[0].size, ax.plots[0].data, cos, true));
+	ax.plots[3].title = "cos(cos(x))";
+	ax.plots[3].type = SCATTER;
+	ax.plots[3].color = PINK;
 
 	while (!WindowShouldClose())
 	{
@@ -40,7 +51,7 @@ int	main(void)
 		ClearBackground(WHITE);
 		DrawFPS(0, 0);
 		axis_show(&ax);
-		plot_update_one(&ax, 1);
+		plot_recal(&ax, 1);
 		EndDrawing();
 	}
 	//TODO: check this function

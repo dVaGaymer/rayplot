@@ -1,7 +1,7 @@
 #include "rayplot.h"
 
 //TODO: Send to plot lines, the t_plot directly
-static void	_plot_lines_D(t_axis2D const *ax, t_plot const *pl)
+static void	_draw_solid_D(t_axis2D const *ax, t_plot const *pl)
 {
 	Vector2	prev;
 	Vector2	p;
@@ -15,24 +15,25 @@ static void	_plot_lines_D(t_axis2D const *ax, t_plot const *pl)
 	}
 }
 
-static void	_plot_scatter_D(t_axis2D const *ax, t_plot *pl)
+static void	_draw_scatter_D(t_axis2D const *ax, t_plot *pl)
 {
 	for (int i = 0; i < pl->size; i++)
 		DrawCircleV(axis_map_to_screen(ax, (Vector2)pl->data[i]), pl->marker_size, pl->color);
 }
 
-void	plot(t_axis2D const *ax, t_plot pl)
+void	plot_draw(t_axis2D const *ax, t_plot pl)
 {
 	if (!pl.enabled)
 		return ;
 	if (SOLID == pl.type)
-		_plot_lines_D(ax, &pl);
+		_draw_solid_D(ax, &pl);
 	else if (SCATTER == pl.type)
-		_plot_scatter_D(ax, &pl);
+		_draw_scatter_D(ax, &pl);
 }
 
+//funcion de mie®∂å
 //Not a good signatura, this should belong to axis?
-void	plot_update_one(t_axis2D *ax, int id)
+void	plot_recal(t_axis2D *ax, int id)
 {
 	t_plot	pl = ax->plots[id];
 
@@ -40,7 +41,7 @@ void	plot_update_one(t_axis2D *ax, int id)
 		pl.data[i] = (Vector2){pl.range.x + pl.range.y * i, pl.func(pl.range.x + pl.range.y * i)};
 }
 
-t_plot	plot_create_F(Vector3 range, t_func1 f, t_line_type type, char *title, Color col)
+t_plot	plot_F(Vector3 range, t_func1 f)
 {
 	t_plot	pl;
 	pl.range = range;
@@ -51,15 +52,15 @@ t_plot	plot_create_F(Vector3 range, t_func1 f, t_line_type type, char *title, Co
 	for (int i = 0; i < pl.size; i ++)
 		pl.data[i] = (Vector2){pl.range.x + pl.range.y * i, pl.func(pl.range.x + pl.range.y * i)};
 
-	pl.type = type;
-	pl.title = title;
-	pl.color = col;
+	pl.type = DEFAULT_TYPE;
+	pl.title = DEFAULT_TITLE;
+	pl.color = DEFAULT_COLOR;
 	pl.enabled = true;
 	pl.marker_size = DEFAULT_MARKER_SIZE;
 	return (pl);
 }
 
-t_plot	plot_create_D(int size, Vector2 *data, t_line_type type, char *title, Color col)
+t_plot	plot_D(int size, Vector2 *data)
 {
 	t_plot	pl;
 
@@ -67,9 +68,39 @@ t_plot	plot_create_D(int size, Vector2 *data, t_line_type type, char *title, Col
 	pl.func = NULL;
 	pl.size = size;
 	pl.range = NULL_VECTOR3;
-	pl.type = type;
-	pl.title = title;
-	pl.color = col;
+	pl.type = DEFAULT_TYPE;
+	pl.title = DEFAULT_TITLE;
+	pl.color = DEFAULT_COLOR;
+	pl.marker_size = DEFAULT_MARKER_SIZE;
+	pl.enabled = true;
+	return (pl);
+}
+
+t_plot	plot_MAP(int size, Vector2 *data, t_func1 f, bool inverse)
+{
+	t_plot	pl;
+
+	pl.size = size;
+	pl.data = (Vector2 *)malloc(sizeof(Vector2) * pl.size);
+	if (!f)
+		return (t_plot){};
+	if (!inverse)
+		for (int i = 0; i < size; i++)
+		{
+			pl.data[i].y = f(data[i].x);
+			pl.data[i].x = data[i].x;
+		}
+	else
+		for (int i = 0; i < size; i++)
+		{
+			pl.data[i].y = f(data[i].y);
+			pl.data[i].x = data[i].x;
+		}
+	pl.func = f;
+	pl.range = NULL_VECTOR3;
+	pl.type = DEFAULT_TYPE;
+	pl.title = DEFAULT_TITLE;
+	pl.color = DEFAULT_COLOR;
 	pl.marker_size = DEFAULT_MARKER_SIZE;
 	pl.enabled = true;
 	return (pl);
