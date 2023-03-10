@@ -6,3 +6,4 @@ Graph plotter using raylib
 -	Redefine default global default values
 -	Review sizes and how the adapt to graph size
 -	Guardar energia Cinetica, Potencial y Total dentro de la estructura Hooke
+-	Check destroy_axis

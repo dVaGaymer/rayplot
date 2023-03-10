@@ -41,6 +41,8 @@
 # define DEFAULT_X_RANGE {-1, 0.1, 1}
 # define DEFAULT_Y_RANGE {-1, 0.1, 1}
 
+# define DEFAULT_TYPE SOLID
+# define DEFAULT_TITLE ""
 
 # define NO_ROTATION 0
 # define DEG_ACW_90_ROTATION -90

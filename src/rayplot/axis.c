@@ -203,7 +203,7 @@ Vector2	axis_map_to_screen(t_axis2D const *ax, Vector2 p)
 static void	_axis_draw_plots(t_axis2D const *ax)
 {
 	for (int i = 0; i < ax->plots_size; i++)
-		plot(ax, ax->plots[i]);
+		plot_draw(ax, ax->plots[i]);
 }
 
 void	axis_show(t_axis2D const *ax)

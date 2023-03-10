@@ -42,10 +42,14 @@ int	main(void)
 	hooke_reset(&h, 5, 0.5, tf, 0.6, 0); //T = 2pi/sqrt(k/m) = 1.98
 	hooke_vel_data(&h);
 	char *title = strdup(TextFormat("Hooke T=%.2f", 0.0));
-	axis_add_plot(&ax, plot_create_D(h.steps, h.data, SOLID, NULL, RED));
+	axis_add_plot(&ax, plot_D(h.steps, h.data));
+	ax.plots[0].type = SOLID;
 	ax.plots[0].title = title;
-	axis_add_plot(&ax, plot_create_D(h.steps, h.vel_data, SOLID, NULL, ORANGE));
+	ax.plots[0].color = RED;
+	axis_add_plot(&ax, plot_D(h.steps, h.vel_data));
 	ax.plots[1].title = "vel";
+	ax.plots[1].type = SOLID;
+	ax.plots[1].color = RED;
 
 	//RAYGUI
 	GuiLoadStyle("./styles/jungle/jungle.rgs");
@@ -60,14 +64,14 @@ int	main(void)
 		ax.plots[0].title = title;
 
 		/* INPUT TESTS */
-		// if (IsKeyDown('W'))
-		// 	ax.bounds.y -= 3;
-		// if (IsKeyDown('A'))
-		// 	ax.bounds.x -= 3;
-		// if (IsKeyDown('S'))
-		// 	ax.bounds.y += 3;
-		// if (IsKeyDown('D'))
-		// 	ax.bounds.x += 3;
+		if (IsKeyDown('W'))
+			ax.bounds.y -= 3;
+		if (IsKeyDown('A'))
+			ax.bounds.x -= 3;
+		if (IsKeyDown('S'))
+			ax.bounds.y += 3;
+		if (IsKeyDown('D'))
+			ax.bounds.x += 3;
 
 		BeginDrawing();
 		ClearBackground(WHITE);

@@ -86,10 +86,11 @@ typedef struct	s_axis2D
 }				t_axis2D;
 
 //------- PLOT -------
-void	plot(t_axis2D const *ax, t_plot pl); //const | does not change axis
-void	plot_update_one(t_axis2D *ax, int id);
-t_plot	plot_create_F(Vector3 range, t_func1 f, t_line_type type, char *title, Color col);
-t_plot	plot_create_D(int size, Vector2 *data, t_line_type type, char *title, Color col);
+void	plot_draw(t_axis2D const *ax, t_plot pl); //const | does not change axis
+void	plot_recal(t_axis2D *ax, int id);
+t_plot	plot_F(Vector3 range, t_func1 f);
+t_plot	plot_D(int size, Vector2 *data);
+t_plot	plot_MAP(int size, Vector2 *data, t_func1 f, bool inverse);
 void	plot_destroy(t_plot pl);
 
 /* NOT IMPLEMENTED YET */
