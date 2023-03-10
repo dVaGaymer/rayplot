@@ -36,12 +36,42 @@ void	hooke_vel_data(t_hooke *h)
 		h->vel_data[i].x = h->d_t * (float)i;
 	}
 }
+#include <stdio.h>
+void	hooke_Ep_data(t_hooke *h)
+{
+	for (int i = 1; i < h->steps; i++)
+	{
+		h->Ep_data[i].y = 1.0f/2.0f * h->k * (h->data[i].y) * (h->data[i].y);
+		h->Ep_data[i].x = h->d_t * (float)i;
+	}
+}
+
+void	hooke_Ec_data(t_hooke *h)
+{
+	for (int i = 1; i < h->steps; i++)
+	{
+		h->Ec_data[i].y = 1.0f/2.0f * h->m * (h->vel_data[i].y) * (h->vel_data[i].y);
+		h->Ec_data[i].x = h->d_t * (float)i;
+	}
+}
+
+void	hooke_E_data(t_hooke *h)
+{
+	for (int i = 1; i < h->steps; i++)
+	{
+		h->E_data[i].y = h->Ep_data[i].y + h->Ec_data[i].y;
+		h->E_data[i].x = h->d_t * (float)i;
+	}
+}
 
 void	hooke_init(t_hooke *h, int steps)
 {
 	h->steps = steps;
 	h->data = (Vector2 *)malloc(sizeof(Vector2) * (h->steps + 1));
 	h->vel_data = (Vector2 *)malloc(sizeof(Vector2) * (h->steps + 1));
+	h->E_data = (Vector2 *)malloc(sizeof(Vector2) * (h->steps + 1));
+	h->Ec_data = (Vector2 *)malloc(sizeof(Vector2) * (h->steps + 1));
+	h->Ep_data = (Vector2 *)malloc(sizeof(Vector2) * (h->steps + 1));
 }
 void	hooke_destroy(t_hooke *h)
 {

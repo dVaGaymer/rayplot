@@ -15,7 +15,7 @@ int	main(void)
 	//Animation
 	Vector2	point = (Vector2){.x=0, .y=0};
 	Vector2	rect = (Vector2){.x=PANEL_WIDTH + WIDTH/2, .y=HEIGHT/2};
-	float	tf = 0.8 * 10;
+	float	tf = 0.8 * 5;
 	float	t = 0;
 
 	t_axis2D	ax;
@@ -33,14 +33,17 @@ int	main(void)
 	ax2.legend = false;
 
 	t_hooke h;
-	hooke_init(&h, 500);
+	hooke_init(&h, 1000);
 	// k = 2 | m = 0.01 | v0 = 0
 	// hooke_reset(&h, 2, 0.01, 6, 0.4, 0); //T = 2pi/sqrt(k/m) = 0.444
 	// k = 10 | m = 0.1 | v0 = 0
-	hooke_reset(&h, 10, 0.1, tf, 0.6, 0); //T = 2pi/sqrt(k/m) = 0.628
+	// hooke_reset(&h, 10, 0.1, tf, 0.6, 0); //T = 2pi/sqrt(k/m) = 0.628
 	// k = 5 | m = 0.5 | v0 = 0
 	hooke_reset(&h, 5, 0.5, tf, 0.6, 0); //T = 2pi/sqrt(k/m) = 1.98
 	hooke_vel_data(&h);
+	hooke_Ep_data(&h);
+	hooke_Ec_data(&h);
+	hooke_E_data(&h);
 	char *title = strdup(TextFormat("Hooke T=%.2f", 0.0));
 	axis_add_plot(&ax, plot_D(h.steps, h.data));
 	ax.plots[0].type = SOLID;
@@ -49,7 +52,19 @@ int	main(void)
 	axis_add_plot(&ax, plot_D(h.steps, h.vel_data));
 	ax.plots[1].title = "vel";
 	ax.plots[1].type = SOLID;
-	ax.plots[1].color = RED;
+	ax.plots[1].color = ORANGE;
+	axis_add_plot(&ax, plot_D(h.steps, h.E_data));
+	ax.plots[2].title = "E";
+	ax.plots[2].type = SOLID;
+	ax.plots[2].color = BLACK;
+	axis_add_plot(&ax, plot_D(h.steps, h.Ec_data));
+	ax.plots[3].title = "Ec";
+	ax.plots[3].type = SOLID;
+	ax.plots[3].color = BLUE;
+	axis_add_plot(&ax, plot_D(h.steps, h.Ep_data));
+	ax.plots[4].title = "Ep";
+	ax.plots[4].type = SOLID;
+	ax.plots[4].color = PURPLE;
 
 	//RAYGUI
 	GuiLoadStyle("./styles/jungle/jungle.rgs");
@@ -89,6 +104,9 @@ int	main(void)
 			k_value_prev = k_value;
 			hooke_set_k(&h, k_value);
 			hooke_vel_data(&h);
+			hooke_E_data(&h);
+			hooke_Ep_data(&h);
+			hooke_Ec_data(&h);
 		}
 		DrawText("m", PANEL_WIDTH/2, 170, 20, WHITE);
 		m_value = GuiSlider((Rectangle){PANEL_WIDTH/2 - 50, 190, 100, 30}, "0.01", "0.5", m_value, 0.01, 0.5);
@@ -97,6 +115,9 @@ int	main(void)
 			m_value_prev = m_value;
 			hooke_set_m(&h, m_value);
 			hooke_vel_data(&h);
+			hooke_E_data(&h);
+			hooke_Ep_data(&h);
+			hooke_Ec_data(&h);
 		}
 		if (GuiButton((Rectangle){PANEL_WIDTH/2 - 25, 50, 50, 50}, "Reset"))
 		{

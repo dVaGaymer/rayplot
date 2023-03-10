@@ -17,6 +17,9 @@ typedef struct	s_hooke
 	float	x;
 	Vector2	*data;
 	Vector2	*vel_data;
+	Vector2	*E_data;
+	Vector2	*Ec_data;
+	Vector2	*Ep_data;
 	int		steps;
 }				t_hooke;
 
@@ -28,5 +31,9 @@ void	hooke_set_m(t_hooke *h, float m);
 void	hooke_set_x0(t_hooke *h, float x0);
 float	hooke_get_period(t_hooke h);
 void	hooke_vel_data(t_hooke *h);
+
+void	hooke_E_data(t_hooke *h);
+void	hooke_Ec_data(t_hooke *h);
+void	hooke_Ep_data(t_hooke *h);
 
 #endif
