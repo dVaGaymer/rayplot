@@ -38,19 +38,19 @@ void	plot_recal(t_axis2D *ax, int id)
 	t_plot	pl = ax->plots[id];
 
 	for (int i = 0; i < pl.size; i ++)
-		pl.data[i] = (Vector2){pl.range.x + pl.range.y * i, pl.func(pl.range.x + pl.range.y * i)};
+		pl.data[i] = (Vector2){pl.range.x + pl.range.y * i, pl.func(pl.range.x + pl.range.y * i, pl.func_param)};
 }
 
-t_plot	plot_F(Vector3 range, t_func1 f)
+t_plot	plot_F(Vector3 range, t_func1 f, void *param)
 {
 	t_plot	pl;
 	pl.range = range;
 	pl.func = f;
-
+	pl.func_param = param;
 	pl.size = (range.z - range.x) / range.y;
 	pl.data = (Vector2 *)malloc(sizeof(Vector2) * pl.size);
 	for (int i = 0; i < pl.size; i ++)
-		pl.data[i] = (Vector2){pl.range.x + pl.range.y * i, pl.func(pl.range.x + pl.range.y * i)};
+		pl.data[i] = (Vector2){pl.range.x + pl.range.y * i, pl.func(pl.range.x + pl.range.y * i, param)};
 
 	pl.type = DEFAULT_TYPE;
 	pl.title = DEFAULT_TITLE;
@@ -76,7 +76,7 @@ t_plot	plot_D(int size, Vector2 *data)
 	return (pl);
 }
 
-t_plot	plot_MAP(int size, Vector2 *data, t_func1 f, bool inverse)
+t_plot	plot_MAP(int size, Vector2 *data, t_func1 f, bool inverse, void *param)
 {
 	t_plot	pl;
 
@@ -87,16 +87,17 @@ t_plot	plot_MAP(int size, Vector2 *data, t_func1 f, bool inverse)
 	if (!inverse)
 		for (int i = 0; i < size; i++)
 		{
-			pl.data[i].y = f(data[i].x);
+			pl.data[i].y = f(data[i].x, param);
 			pl.data[i].x = data[i].x;
 		}
 	else
 		for (int i = 0; i < size; i++)
 		{
-			pl.data[i].y = f(data[i].y);
+			pl.data[i].y = f(data[i].y, param);
 			pl.data[i].x = data[i].x;
 		}
 	pl.func = f;
+	pl.func_param = param;
 	pl.range = NULL_VECTOR3;
 	pl.type = DEFAULT_TYPE;
 	pl.title = DEFAULT_TITLE;

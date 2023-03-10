@@ -17,20 +17,20 @@ int	main(void)
 	ax.y_label = "Y axis";
 	ax.x_range = (Vector3){-10, 0.01 , 10};
 	ax.y_range = (Vector3){-1.5, 0.01, 1.5};
-	axis_add_plot(&ax, plot_F(ax.x_range, cos));
+	axis_add_plot(&ax, plot_F(ax.x_range, (t_func1)cos, NULL));
 	ax.plots[0].title = "Cos";
 	ax.plots[0].type = SOLID;
 	ax.plots[0].color = GREEN;
-	axis_add_plot(&ax, plot_F(ax.x_range, wave_test));
+	axis_add_plot(&ax, plot_F(ax.x_range, (t_func1)wave_test, NULL));
 	ax.plots[1].title = "wave_test";
 	ax.plots[1].type = SOLID;
 	ax.plots[1].color = BLACK;
-	axis_add_plot(&ax, plot_F(ax.x_range, test));
+	axis_add_plot(&ax, plot_F(ax.x_range, (t_func1)test, NULL));
 	ax.plots[2].title = "test";
 	ax.plots[2].type = SCATTER;
 	ax.plots[2].color = ORANGE;
 	axis_add_plot(&ax,
-		plot_MAP(ax.plots[0].size, ax.plots[0].data, cos, true));
+		plot_MAP(ax.plots[0].size, ax.plots[0].data, (t_func1)cos, true, NULL));
 	ax.plots[3].title = "cos(cos(x))";
 	ax.plots[3].type = SCATTER;
 	ax.plots[3].color = PINK;
