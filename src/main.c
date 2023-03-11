@@ -45,23 +45,23 @@ int	main(void)
 	hooke_Ec_data(&h);
 	hooke_E_data(&h);
 	char *title = strdup(TextFormat("Hooke T=%.2f", 0.0));
-	axis_add_plot(&ax, plot_D(h.steps, h.data));
+	axis_add_plot(&ax, plot_DV(h.steps, h.data));
 	ax.plots[0].type = SOLID;
 	ax.plots[0].title = title;
 	ax.plots[0].color = RED;
-	axis_add_plot(&ax, plot_D(h.steps, h.vel_data));
+	axis_add_plot(&ax, plot_DV(h.steps, h.vel_data));
 	ax.plots[1].title = "vel";
 	ax.plots[1].type = SOLID;
 	ax.plots[1].color = ORANGE;
-	axis_add_plot(&ax, plot_D(h.steps, h.E_data));
+	axis_add_plot(&ax, plot_DV(h.steps, h.E_data));
 	ax.plots[2].title = "E";
 	ax.plots[2].type = SOLID;
 	ax.plots[2].color = BLACK;
-	axis_add_plot(&ax, plot_D(h.steps, h.Ec_data));
+	axis_add_plot(&ax, plot_DV(h.steps, h.Ec_data));
 	ax.plots[3].title = "Ec";
 	ax.plots[3].type = SOLID;
 	ax.plots[3].color = BLUE;
-	axis_add_plot(&ax, plot_D(h.steps, h.Ep_data));
+	axis_add_plot(&ax, plot_DV(h.steps, h.Ep_data));
 	ax.plots[4].title = "Ep";
 	ax.plots[4].type = SOLID;
 	ax.plots[4].color = PURPLE;
@@ -143,6 +143,6 @@ int	main(void)
 		EndDrawing();
 	}
 	free(ax.plots[0].title);
-	axis_destroy(&ax);
+	//axis_destroy(&ax);
 	CloseWindow();
 }
