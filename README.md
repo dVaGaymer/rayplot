@@ -2,6 +2,6 @@
 Graph plotter using raylib
 
 # TODO:
--	Redefine default global default values
--	Review sizes and how the adapt to graph size
+-	Zoom and pan functions
 -	Check destroy_axis
+-	Review sizes and how the adapt to graph size
