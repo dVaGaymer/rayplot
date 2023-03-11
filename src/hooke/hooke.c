@@ -76,6 +76,10 @@ void	hooke_init(t_hooke *h, int steps)
 void	hooke_destroy(t_hooke *h)
 {
 	free(h->data);
+	free(h->vel_data);
+	free(h->E_data);
+	free(h->Ep_data);
+	free(h->Ec_data);
 }
 
 void	hooke_set_k(t_hooke *h, float k)

@@ -143,6 +143,7 @@ int	main(void)
 		EndDrawing();
 	}
 	free(ax.plots[0].title);
+	hooke_destroy(&h);
 	//axis_destroy(&ax);
 	CloseWindow();
 }
