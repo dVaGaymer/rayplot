@@ -1,9 +1,9 @@
 #include "main.h"
 #include <stdio.h>
 
-double test(double x) { return (sin(x) * cos(2 * x * x) * cos(2 * x)); }
+double cos2(double x) { return (sin(x) * cos(2 * x * x) * cos(2 * x)); }
 
-double wave_test(double x) { return(sin (x - GetTime())); }
+double cosT(double x) { return(sin (x - GetTime())); }
 
 int	main(void)
 {
@@ -17,25 +17,23 @@ int	main(void)
 	ax.y_label = "Y axis";
 	ax.x_range = (Vector3){-10, 0.01 , 10};
 	ax.y_range = (Vector3){-1.5, 0.01, 1.5};
-	axis_add_plot(&ax, plot_D(3, (float [3]){0, 1, 2}, (float [3]){0, 1, 2}));
-	ax.plots[0].title = "Cos";
+	float	*x = create_range((Vector3){-10, 0.1, 10}), *y = create_range((Vector3){-10, 0.1, 10});
+	axis_add_plot(&ax, plot_D(20.0f/0.1f, x, br_func(x, 20.0f/0.1f, cos2, y)));
+	ax.plots[0].title = "wave";
 	ax.plots[0].type = SOLID;
-	ax.plots[0].color = GREEN;
-	axis_add_plot(&ax,
-		plot_DV(4,
-			(Vector2 [])
-				{
-					(Vector2){0, 0},
-					(Vector2){0, 1},
-					(Vector2){-5, 1},
-					(Vector2){-5, -1}
-				}));
-	ax.plots[0].title = "Cos";
-	ax.plots[0].type = SOLID;
-	ax.plots[0].color = GREEN;
+	ax.plots[0].color = PINK;
+
+	float	*x1 = create_range((Vector3){-10, 0.1, 10}), *y1 = create_range((Vector3){-10, 0.1, 10});
+	axis_add_plot(&ax, plot_D(20.0f/0.1f, x1, br_func(x1, 20.0f/0.1f, cosT, y1)));
+	ax.plots[1].title = "cosT";
+	ax.plots[2].type = SOLID;
+	ax.plots[3].color = GREEN;
+
 
 	while (!WindowShouldClose())
 	{
+		br_func(x, 20.0f/0.1f, cos2, y);
+		br_func(x1, 20.0f/0.1f, cosT, y1);
 		/* INPUT TESTS */
 		if (IsKeyDown('W'))
 			ax.bounds.y -= 3;
@@ -53,5 +51,6 @@ int	main(void)
 		EndDrawing();
 	}
 	axis_destroy(&ax, (void *)plot_destroy);
+	free(x); free(y); free(x1); free(y1);
 	CloseWindow();
 }

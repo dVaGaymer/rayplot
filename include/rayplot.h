@@ -3,9 +3,9 @@
 
 # include "raylib.h"
 # include "macro.h"
-# include <stdlib.h>
 
 typedef void (*t_plotdelfunc)(void *);
+typedef double (*t_func1)(double);
 
 typedef enum	e_line_type
 {
@@ -14,6 +14,8 @@ typedef enum	e_line_type
 	SCATTER
 }				t_line_type;
 
+//User can set a flag inside plot
+//	to tell it is given the responsability to free the data
 typedef struct	s_plot
 {
 	int			plot_id;

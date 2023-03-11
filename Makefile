@@ -3,9 +3,7 @@ NAME		=	$(BIN_DIR)/rayplot
 
 #----- HEADER -----
 H_DIR	=	include
-H		=	$(H_DIR)/main.h \
-			$(H_DIR)/macro.h \
-			$(H_DIR)/rayplot.h
+H		=	$(wildcard $(SRC_DIR)/**/*.h)
 
 #----- SRC ----
 SRC_DIR		=	src
