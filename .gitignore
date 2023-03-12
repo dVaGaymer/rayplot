@@ -2,6 +2,7 @@
 .vscode/
 *.json
 bin/
+obj/
 
 # Prerequisites
 *.d
