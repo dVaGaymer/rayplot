@@ -15,32 +15,35 @@ int	main(void)
 	ax.title = "Some cool Plots";
 	ax.x_label = "X axis";
 	ax.y_label = "Y axis";
-	ax.x_range = (Vector3){-10, 0.01 , 10};
-	ax.y_range = (Vector3){-1.5, 0.01, 1.5};
+	ax.x_range = (Vector3){2.8, 0.01 , 4};
+	ax.y_range = (Vector3){0, 0.01, 1};
 
-	float	*x = range_create(ax.x_range), *y = range_create(ax.x_range);
-	axis_add_plot(&ax, plot_D(range_size(ax.x_range), x, br_func(x, range_size(ax.x_range), cos2, y)));
+	Vector3	range = ax.x_range;
+	float	*x = range_create(range), *y = range_create(range);
+	axis_add_plot(&ax, plot_D(range_size(range), x, br_func(x, range_size(range), cos2, y)));
 	ax.plots[0].title = "wave";
 	ax.plots[0].type = SOLID;
 	ax.plots[0].color = PINK;
 
-	float	*x1 = range_create(ax.x_range), *y1 = range_create(ax.x_range);
-	axis_add_plot(&ax, plot_D(range_size(ax.x_range), x1, br_func(x1, range_size(ax.x_range), cosT, y1)));
+	Vector3	range1 = ax.x_range;
+	float	*x1 = range_create(range1), *y1 = range_create(range1);
+	axis_add_plot(&ax, plot_D(range_size(range1), x1, br_func(x1, range_size(range1), cosT, y1)));
 	ax.plots[1].title = "cosT";
 	ax.plots[1].type = SOLID;
 	ax.plots[1].color = GREEN;
 
-	Vector2 *f = csv_readV2("./src/csv/test.csv");
-	csv_writeV2("./src/csv/out.csv", f, csv_get_size("./src/csv/test.csv"));
+	Vector2 *f = csv_readV2("./src/csv/feig.csv");
+	// csv_writeV2("./src/csv/out.csv", f, csv_get_size("./src/csv/test.csv"));
 
-	axis_add_plot(&ax, plot_DV(13, f));
+	axis_add_plot(&ax, plot_DV(csv_get_size("./src/csv/feig.csv"), f));
 	ax.plots[2].title = "points";
 	ax.plots[2].type = SCATTER;
 	ax.plots[2].color = BLUE;
+	ax.plots[2].marker_size = 1;
 	while (!WindowShouldClose())
 	{
-		br_func(x,range_size(ax.x_range), cos2, y);
-		br_func(x1, range_size(ax.x_range), cosT, y1);
+		br_func(x,range_size(range), cos2, y);
+		br_func(x1, range_size(range1), cosT, y1);
 		/* INPUT TESTS */
 		if (IsKeyDown('W'))
 			ax.bounds.y -= 3;
@@ -50,6 +53,22 @@ int	main(void)
 			ax.bounds.y += 3;
 		if (IsKeyDown('D'))
 			ax.bounds.x += 3;
+		if (IsKeyDown('-'))
+		{
+			ax.x_range.x -= 0.1;
+			ax.x_range.z += 0.1;
+
+			ax.y_range.x -= 0.1;
+			ax.y_range.z += 0.1;
+		}
+		if (IsKeyDown('='))
+		{
+			ax.x_range.x += 0.1;
+			ax.x_range.z -= 0.1;
+
+			ax.y_range.x += 0.1;
+			ax.y_range.z -= 0.1;
+		}
 
 		BeginDrawing();
 		ClearBackground(WHITE);
