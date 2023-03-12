@@ -2,8 +2,10 @@
 #include <stdio.h>
 
 # define PANEL_WIDTH 200
+double cos2(double x) { return (sin(x) * cos(2 * x * x) * cos(2 * x)); }
 
 void l(){system("leaks rayplot");}
+double cosT(double x) { return(sin (x - GetTime())); }
 
 //TODO: THIS MAIN IS ONLY A TEST TO TRY NUMERIC SOLVE IMPLEMENTTION AND AXIS
 int	main(void)
@@ -87,6 +89,22 @@ int	main(void)
 			ax.bounds.y += 3;
 		if (IsKeyDown('D'))
 			ax.bounds.x += 3;
+		if (IsKeyDown('-'))
+		{
+			ax.x_range.x -= 0.1;
+			ax.x_range.z += 0.1;
+
+			ax.y_range.x -= 0.1;
+			ax.y_range.z += 0.1;
+		}
+		if (IsKeyDown('='))
+		{
+			ax.x_range.x += 0.1;
+			ax.x_range.z -= 0.1;
+
+			ax.y_range.x += 0.1;
+			ax.y_range.z -= 0.1;
+		}
 
 		BeginDrawing();
 		ClearBackground(WHITE);
