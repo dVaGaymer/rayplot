@@ -26,10 +26,14 @@ int	main(void)
 	float	*x1 = create_range((Vector3){-10, 0.1, 10}), *y1 = create_range((Vector3){-10, 0.1, 10});
 	axis_add_plot(&ax, plot_D(20.0f/0.1f, x1, br_func(x1, 20.0f/0.1f, cosT, y1)));
 	ax.plots[1].title = "cosT";
-	ax.plots[2].type = SOLID;
-	ax.plots[3].color = GREEN;
+	ax.plots[1].type = SOLID;
+	ax.plots[1].color = GREEN;
 
-
+	Vector2 *f = csv_readV2("./src/csv/test.csv");
+	axis_add_plot(&ax, plot_DV(13, f));
+	ax.plots[2].title = "cosT";
+	ax.plots[2].type = SCATTER;
+	ax.plots[2].color = BLUE;
 	while (!WindowShouldClose())
 	{
 		br_func(x, 20.0f/0.1f, cos2, y);
