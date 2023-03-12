@@ -208,10 +208,6 @@ static void	_axis_draw_plots(t_axis2D const *ax)
 
 void	axis_show(t_axis2D const *ax)
 {
-	if (ax->inner_frame)
-		_axis_draw_inner_frame(ax);
-	if (ax->outter_frame)
-		_axis_draw_outter_frame(ax);
 	if (ax->x_grid)
 		_axis_draw_x_grid(ax);
 	if (ax->y_grid)
@@ -229,6 +225,10 @@ void	axis_show(t_axis2D const *ax)
 	_axis_draw_plots(ax);
 	if (ax->legend)
 		_axis_draw_legend(ax);
+	if (ax->inner_frame)
+		_axis_draw_inner_frame(ax);
+	if (ax->outter_frame)
+		_axis_draw_outter_frame(ax);
 }
 
 void	axis_add_plot(t_axis2D *ax, t_plot pl)

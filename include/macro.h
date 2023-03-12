@@ -1,7 +1,8 @@
 #ifndef MACRO_H
 # define MACRO_H
 
-# define WIDTH 1200.0f
+# define PANEL_WIDTH 200
+# define WIDTH 1000.0f
 # define HEIGHT 800.0f
 # ifndef NULL
 #  define NULL (void *)0
