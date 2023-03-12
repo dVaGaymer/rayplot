@@ -1,2 +1,2 @@
 # rayplot
-Graph plotter using raylib
+Tiny plotter with the power of raylib
