@@ -7,7 +7,7 @@ float	*br_func(float *x, int size, t_func1 f, float *ret)
 	return ret;
 }
 
-float	*create_range(Vector3 range)
+float	*range_create(Vector3 range)
 {
 	int		size = (range.z - range.x) / range.y;
 	float	*ret = (float *)malloc(sizeof(float) * size);
@@ -16,4 +16,9 @@ float	*create_range(Vector3 range)
 	for (int i = 0; i < size; i++, num += range.y)
 		ret[i] = num;
 	return ret;
+}
+
+size_t	range_size(Vector3 range)
+{
+	return ((range.z - range.x) / range.y);
 }
