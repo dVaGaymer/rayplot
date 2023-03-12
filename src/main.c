@@ -31,8 +31,10 @@ int	main(void)
 	ax.plots[1].color = GREEN;
 
 	Vector2 *f = csv_readV2("./src/csv/test.csv");
+	csv_writeV2("./src/csv/out.csv", f, csv_get_size("./src/csv/test.csv"));
+
 	axis_add_plot(&ax, plot_DV(13, f));
-	ax.plots[2].title = "cosT";
+	ax.plots[2].title = "points";
 	ax.plots[2].type = SCATTER;
 	ax.plots[2].color = BLUE;
 	while (!WindowShouldClose())
