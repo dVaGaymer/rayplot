@@ -17,23 +17,24 @@ int	main(void)
 	ax.y_label = "Y axis";
 	ax.x_range = (Vector3){-10, 0.01 , 10};
 	ax.y_range = (Vector3){-1.5, 0.01, 1.5};
-	float	*x = create_range((Vector3){-10, 0.1, 10}), *y = create_range((Vector3){-10, 0.1, 10});
-	axis_add_plot(&ax, plot_D(20.0f/0.1f, x, br_func(x, 20.0f/0.1f, cos2, y)));
+
+	float	*x = range_create(ax.x_range), *y = range_create(ax.x_range);
+	axis_add_plot(&ax, plot_D(range_size(ax.x_range), x, br_func(x, range_size(ax.x_range), cos2, y)));
 	ax.plots[0].title = "wave";
 	ax.plots[0].type = SOLID;
 	ax.plots[0].color = PINK;
 
-	float	*x1 = create_range((Vector3){-10, 0.1, 10}), *y1 = create_range((Vector3){-10, 0.1, 10});
-	axis_add_plot(&ax, plot_D(20.0f/0.1f, x1, br_func(x1, 20.0f/0.1f, cosT, y1)));
+	float	*x1 = range_create(ax.x_range), *y1 = range_create(ax.x_range);
+	axis_add_plot(&ax, plot_D(range_size(ax.x_range), x1, br_func(x1, range_size(ax.x_range), cosT, y1)));
 	ax.plots[1].title = "cosT";
-	ax.plots[2].type = SOLID;
-	ax.plots[3].color = GREEN;
+	ax.plots[1].type = SOLID;
+	ax.plots[1].color = GREEN;
 
 
 	while (!WindowShouldClose())
 	{
-		br_func(x, 20.0f/0.1f, cos2, y);
-		br_func(x1, 20.0f/0.1f, cosT, y1);
+		br_func(x,range_size(ax.x_range), cos2, y);
+		br_func(x1, range_size(ax.x_range), cosT, y1);
 		/* INPUT TESTS */
 		if (IsKeyDown('W'))
 			ax.bounds.y -= 3;
