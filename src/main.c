@@ -1,12 +1,20 @@
 #include "main.h"
 #include <stdio.h>
 
-double cos2(double x) { return (sin(x) * cos(2 * x * x) * cos(2 * x)); }
-
-void l(){system("leaks rayplot");}
 double cosT(double x) { return(sin (x - GetTime())); }
 
-//TODO: THIS MAIN IS ONLY A TEST TO TRY NUMERIC SOLVE IMPLEMENTTION AND AXIS
+void	UpdateDrawFrame(void)
+{
+		//Update data each time
+		br_func(pl.x_data, pl.size, cosT, pl.y_data);
+		BeginDrawing();
+		ClearBackground(WHITE);
+		DrawFPS(0, 0);
+
+		axis_show(&ax);
+		EndDrawing();
+}
+
 int	main(void)
 {
 	atexit(l);
