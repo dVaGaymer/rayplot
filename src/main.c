@@ -5,8 +5,8 @@
 /*       Local variables (LOCAL TO THIS MODULE)          */
 /*       (module variables ~~> class variables)          */
 /*-------------------------------------------------------*/
-t_axis2D	ax;
-t_plot		pl;
+static t_axis2D		ax;
+static t_plot		pl;
 
 double cosT(double x) { return(sin (x - GetTime())); }
 
