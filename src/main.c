@@ -1,7 +1,26 @@
 #include "main.h"
 #include <stdio.h>
 
+/*-------------------------------------------------------*/
+/*       Local variables (LOCAL TO THIS MODULE)          */
+/*       (module variables ~~> class variables)          */
+/*-------------------------------------------------------*/
+t_axis2D	ax;
+t_plot		pl;
+
 double cosT(double x) { return(sin (x - GetTime())); }
+
+void	UpdateDrawFrame(void)
+{
+		//Update data each time
+		br_func(pl.x_data, pl.size, cosT, pl.y_data);
+		BeginDrawing();
+		ClearBackground(WHITE);
+		DrawFPS(0, 0);
+
+		axis_show(&ax);
+		EndDrawing();
+}
 
 int	main(void)
 {
@@ -9,7 +28,6 @@ int	main(void)
 	SetTargetFPS(60);
 
 	//Create Axis
-	t_axis2D	ax;
 	axis_create(&ax, (Rectangle){WIDTH/2, HEIGHT/2, WIDTH * 0.8, HEIGHT * 0.8});
 	ax.x_range = (Vector3){0, 0.01, 10};
 	ax.y_range = (Vector3){-1.5, 0, 1.5};
@@ -18,7 +36,6 @@ int	main(void)
 	ax.y_label = "Y label";
 
 	//Create plot
-	t_plot		pl;
 	float		*x_range = range_create(ax.x_range);
 	float		*y_range = range_create(ax.x_range);
 	size_t		size = range_size(ax.x_range);
@@ -31,14 +48,7 @@ int	main(void)
 	axis_add_plot(&ax, pl);
 	while (!WindowShouldClose())
 	{
-		//Update data each time
-		br_func(x_range, size, cosT, y_range);
-		BeginDrawing();
-		ClearBackground(WHITE);
-		DrawFPS(0, 0);
-
-		axis_show(&ax);
-		EndDrawing();
+		UpdateDrawFrame();
 	}
 	free(x_range);
 	free(y_range);
