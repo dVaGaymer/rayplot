@@ -92,7 +92,7 @@ typedef struct	s_axis2D
  * @param ax Axis
  * @param id id of a plot inside ax
  */
-void	plot_draw(t_axis2D const *ax, int id);
+void	plPlot(t_axis2D const *ax, int id);
 /**
  * @brief
  * Creates a plot from two arrays of data.
@@ -109,7 +109,7 @@ void	plot_draw(t_axis2D const *ax, int id);
  * @param y
  * @return t_plot
  */
-t_plot	plot_D(int size, float *x, float *y);
+t_plot	plCreate(int size, float *x, float *y);
 /**
  * @brief Creates a plot from an array of points
  *
@@ -117,15 +117,14 @@ t_plot	plot_D(int size, float *x, float *y);
  * @param data
  * @return t_plot
  */
-t_plot	plot_DV(int size, Vector2 *data);
-//TODO: Think of a destruction function
-void	plot_destroy(t_plot *pl);
+t_plot	plCreateV(int size, Vector2 *data);
+void	plDestroy(t_plot *pl);
 
 //------ AXIS ------
-Vector2		axis_map_to_screen(t_axis2D const *ax, Vector2 p); //const | does not change axis
-t_axis2D	*axis_create(t_axis2D *ax, Rectangle bounds);
-void		axis_show(t_axis2D const *ax); //const | does not change axis
-void		axis_destroy(t_axis2D *ax, t_plotdelfunc f);
-void		axis_add_plot(t_axis2D *ax, t_plot pl);
+Vector2		axMapToScreen(t_axis2D const *ax, Vector2 p); //const | does not change axis
+t_axis2D	*axCreate(t_axis2D *ax, Rectangle bounds);
+void		axShow(t_axis2D const *ax); //const | does not change axis
+void		axDestroy(t_axis2D *ax, t_plotdelfunc f);
+void		axAddPlot(t_axis2D *ax, t_plot pl);
 
 #endif

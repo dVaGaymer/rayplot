@@ -1,13 +1,13 @@
 # include "br_function.h"
 
-float	*br_func(float *x, int size, t_func1 f, float *ret)
+float	*brFunctionOverArray(float *x, int size, t_func1 f, float *ret)
 {
 	for (int i = 0; i < size; i++)
 		ret[i] = f(x[i]);
 	return ret;
 }
 
-float	*range_create(Vector3 range)
+float	*ranCreate(Vector3 range)
 {
 	int		size = (range.z - range.x) / range.y;
 	float	*ret = (float *)malloc(sizeof(float) * size);
@@ -18,7 +18,7 @@ float	*range_create(Vector3 range)
 	return ret;
 }
 
-size_t	range_size(Vector3 range)
+size_t	ranGetSize(Vector3 range)
 {
 	return ((range.z - range.x) / range.y);
 }

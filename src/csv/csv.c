@@ -1,6 +1,6 @@
 #include "csv.h"
 
-size_t	csv_get_size(const char * filename)
+size_t	csvGetSize(const char * filename)
 {
 	FILE	*fd = fopen(filename, "r");
 	char	*str = NULL;
@@ -10,7 +10,7 @@ size_t	csv_get_size(const char * filename)
 	return i;
 }
 
-Vector2	*csv_readV2(const char * filename)
+Vector2	*csvReadV2(const char * filename)
 {
 	size_t	len;
 	Vector2	*ret = NULL;
@@ -18,7 +18,7 @@ Vector2	*csv_readV2(const char * filename)
 	char	*spl = NULL;
 	FILE	*fd = fopen(filename, "r");
 
-	ret = (Vector2 *)malloc(sizeof(Vector2) * csv_get_size(filename));
+	ret = (Vector2 *)malloc(sizeof(Vector2) * csvGetSize(filename));
 
 	fd = fopen(filename, "r");
 	for (int i = 0; EOF != getline(&str, &len, fd); i++)
@@ -32,7 +32,7 @@ Vector2	*csv_readV2(const char * filename)
 	return (ret);
 }
 
-void	csv_writeV2(const char * filename, Vector2 *v, int size)
+void	csvWriteV2(const char * filename, Vector2 *v, int size)
 {
 	(void)v;
 	FILE	*fd = fopen(filename, "w");
@@ -41,7 +41,7 @@ void	csv_writeV2(const char * filename, Vector2 *v, int size)
 		fprintf(fd, "%f, %f\n", v[i].x, v[i].y);
 }
 
-void	csv_write2(const char * filename, float *x, float *y, int size)
+void	csvWrite2(const char * filename, float *x, float *y, int size)
 {
 	FILE	*fd = fopen(filename, "w");
 

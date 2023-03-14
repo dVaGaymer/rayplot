@@ -138,7 +138,7 @@ static void	_axis_draw_legend(t_axis2D const *ax)
 }
 
 /*-------------------------------------------------------*/
-t_axis2D	*axis_create(t_axis2D *ax, Rectangle bounds)
+t_axis2D	*axCreate(t_axis2D *ax, Rectangle bounds)
 {
 	ax->padding = DEFAULT_PADDING;
 
@@ -181,7 +181,7 @@ t_axis2D	*axis_create(t_axis2D *ax, Rectangle bounds)
 	return (ax);
 }
 
-Vector2	axis_map_to_screen(t_axis2D const *ax, Vector2 p)
+Vector2	axMapToScreen(t_axis2D const *ax, Vector2 p)
 {
 	Vector2	new_pos = (Vector2)
 	{
@@ -203,10 +203,10 @@ Vector2	axis_map_to_screen(t_axis2D const *ax, Vector2 p)
 static void	_axis_draw_plots(t_axis2D const *ax)
 {
 	for (int i = 0; i < ax->plots_size; i++)
-		plot_draw(ax, i);
+		plPlot(ax, i);
 }
 
-void	axis_show(t_axis2D const *ax)
+void	axShow(t_axis2D const *ax)
 {
 	if (ax->inner_frame)
 		_axis_draw_inner_frame(ax);
@@ -231,14 +231,14 @@ void	axis_show(t_axis2D const *ax)
 		_axis_draw_legend(ax);
 }
 
-void	axis_add_plot(t_axis2D *ax, t_plot pl)
+void	axAddPlot(t_axis2D *ax, t_plot pl)
 {
 	ax->plots[ax->plots_size] = pl;
 	pl.plot_id = ax->plots_size;
 	ax->plots_size += 1;
 }
 
-void	axis_destroy(t_axis2D *ax, t_plotdelfunc f)
+void	axDestroy(t_axis2D *ax, t_plotdelfunc f)
 {
 	for (int i = 0; i < ax->plots_size; i++)
 		f(&ax->plots[i]);
